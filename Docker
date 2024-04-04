@@ -1,0 +1,14 @@
+FROM some_base_image
+
+CMD minikube start && \
+    kubectl apply -f flask-deployment.yaml && \
+    kubectl apply -f flask-service.yaml && \
+    kubectl apply -f order-deployment.yaml && \
+    kubectl apply -f order-service.yaml && \
+    kubectl apply -f product-deployment.yaml && \
+    kubectl apply -f product-service.yaml && \
+    kubectl apply -f mongodb-deployment.yaml && \
+    echo "Waiting for pods to be deployed..." && \
+    kubectl wait --for=condition=Ready pod --all && \
+    echo "Starting minikube tunnel..." && \
+    minikube tunnel
